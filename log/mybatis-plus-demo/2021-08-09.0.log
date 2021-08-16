@@ -1,0 +1,16 @@
+2021-08-09 11:49:35.752 INFO  [main] com.example.MybatisPlusDemoApplicationTests [StartupInfoLogger.java:55] - Starting MybatisPlusDemoApplicationTests on W56-180355 with PID 45220 (started by 180355 in E:\workspace\100-day\spring-boot\lesson2-db\mybatis-plus-demo) 
+2021-08-09 11:49:35.781 INFO  [main] com.example.MybatisPlusDemoApplicationTests [SpringApplication.java:651] - No active profile set, falling back to default profiles: default 
+2021-08-09 11:49:36.279 INFO  [main] o.s.d.r.config.RepositoryConfigurationDelegate [RepositoryConfigurationDelegate.java:127] - Bootstrapping Spring Data JDBC repositories in DEFAULT mode. 
+2021-08-09 11:49:36.299 INFO  [main] o.s.d.r.config.RepositoryConfigurationDelegate [RepositoryConfigurationDelegate.java:187] - Finished Spring Data repository scanning in 16ms. Found 0 JDBC repository interfaces. 
+2021-08-09 11:49:37.043 INFO  [main] o.s.scheduling.concurrent.ThreadPoolTaskExecutor [ExecutorConfigurationSupport.java:181] - Initializing ExecutorService 'applicationTaskExecutor' 
+2021-08-09 11:49:37.849 INFO  [main] com.zaxxer.hikari.HikariDataSource [HikariDataSource.java:110] - HikariPool-1 - Starting... 
+2021-08-09 11:49:38.480 INFO  [main] com.zaxxer.hikari.HikariDataSource [HikariDataSource.java:123] - HikariPool-1 - Start completed. 
+2021-08-09 11:49:38.591 INFO  [main] com.example.MybatisPlusDemoApplicationTests [StartupInfoLogger.java:61] - Started MybatisPlusDemoApplicationTests in 3.193 seconds (JVM running for 4.819) 
+2021-08-09 11:49:38.855 DEBUG [main] com.example.mapper.UserMapper.selectByIds [BaseJdbcLogger.java:137] - ==>  Preparing: SELECT * FROM user WHERE id IN ( ? , ? , ? , ? ) 
+2021-08-09 11:49:38.883 DEBUG [main] com.example.mapper.UserMapper.selectByIds [BaseJdbcLogger.java:137] - ==> Parameters: 1(Integer), 5(Integer), 9(Integer), 10(Integer) 
+2021-08-09 11:49:38.904 DEBUG [main] com.example.mapper.UserMapper.selectByIds [BaseJdbcLogger.java:137] - <==      Total: 2 
+2021-08-09 11:49:38.905 INFO  [main] com.example.MybatisPlusDemoApplicationTests [MybatisPlusDemoApplicationTests.java:105] - index:9,UserDTO{"createAt":"2021-08-04 11:33:28","deleted":0,"id":9,"password":"123456","username":"129cb713-90d2-4c52-a596-bc57c0378ba3","version":1} 
+2021-08-09 11:49:38.972 INFO  [main] com.example.MybatisPlusDemoApplicationTests [MybatisPlusDemoApplicationTests.java:105] - index:10,UserDTO{"createAt":"2021-08-04 11:33:28","deleted":1,"id":10,"password":"123456","username":"460d22ad-887e-41f1-89e2-d42f68082337","version":1} 
+2021-08-09 11:49:38.989 INFO  [SpringContextShutdownHook] com.zaxxer.hikari.HikariDataSource [HikariDataSource.java:350] - HikariPool-1 - Shutdown initiated... 
+2021-08-09 11:49:38.999 INFO  [SpringContextShutdownHook] com.zaxxer.hikari.HikariDataSource [HikariDataSource.java:352] - HikariPool-1 - Shutdown completed. 
+2021-08-09 11:49:38.999 INFO  [SpringContextShutdownHook] o.s.scheduling.concurrent.ThreadPoolTaskExecutor [ExecutorConfigurationSupport.java:218] - Shutting down ExecutorService 'applicationTaskExecutor' 

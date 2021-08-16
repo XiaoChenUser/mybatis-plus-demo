@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.mapper.UserMapper">
+
+    <select id="selectByIds" resultType="UserDTO">
+        SELECT * FROM user WHERE id IN
+        <foreach collection="ids" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </select>
+
+    <select id="selectPageUser" parameterType="INTEGER" resultType="UserDTO">
+        SELECT * FROM user WHERE deleted = #{deleted}
+    </select>
+
+    <update id="updatePasswordById">
+        UPDATE user
+        SET password = #{password}
+        WHERE id = #{id}
+    </update>
+
+
+</mapper>

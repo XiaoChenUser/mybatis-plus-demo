@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- scan表示配置改变时，是否重新加载；scanPeriod表示扫描配置文件是否有修改的周期；debug默认为false,表示不打印logback内部日志 -->
+<configuration scan="true" scanPeriod="60 seconds" debug="false">
+    <!-- property定义属性，可以在后面的配置中使用"${ }"来引用定义的变量 -->
+<!--    <property name="LOG_DIR" value="log"/>-->
+<!--    <property name="APP_NAME" value="mybatis-plus-demo"/>-->
+<!--    <springProperty scope="context" name="LOG_DIR" source="log.path"/>-->
+
+    <property resource="property.properties"/>
+    <!-- 当前应用名 -->
+    <contextName>${APP_NAME}</contextName>
+
+    <!-- 控制台输出 -->
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <!-- 格式化输出：%d表示日期，%thread表示线程名，%-5level表示日志级别，从左显示5个字符宽度，%logger表示日志产生的类名，%msg表示日志信息，%n是换行符 -->
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%contextName] %highlight(%-5level) [%thread] %boldMagenta(%logger{50}) [%file:%line] - %cyan(%msg) %n</pattern>
+            <charset class="java.nio.charset.Charset">UTF-8</charset>
+            <outputPatternAsHeader>true</outputPatternAsHeader>
+        </encoder>
+    </appender>
+
+    <!-- 文件输出 -->
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!-- 正在记录的日志文件的路径及文件名 -->
+        <file>${LOG_DIR}/${APP_NAME}/log.log</file>
+        <!-- RollingFileAppender 需要配置 <rollingPolicy> 和 <triggeringPolicy>，缺一不可 -->
+        <!-- TimeBasedRollingPolicy 实现了 RollingPolicy 和 TriggeringPolicy，所以可以只配置 <rollingPolicy> -->
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <!-- 日志文件名，%d 和 %i 强制要有，分别表示日志归档周期和周期内达到最大尺寸的日志序号，从0开始 -->
+            <FileNamePattern>${LOG_DIR}/${APP_NAME}/%d{yyyy-MM-dd}.%i.log</FileNamePattern>
+            <!-- 单个日志文件的最大大小 -->
+            <maxFileSize>200MB</maxFileSize>
+            <!-- 日志文件保留时间，与轮转周期有关；按天记录日志，这里就是30天，按月记录日志，这里就是30个月 -->
+            <MaxHistory>30</MaxHistory>
+            <!-- totalSizeCap 用于限制归档文件的总大小 -->
+            <totalSizeCap>20GB</totalSizeCap>
+        </rollingPolicy>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <!-- 格式化输出：%d表示日期，%thread表示线程名，%-5level表示日志级别，从左显示5个字符宽度，%logger表示日志产生的类名，%msg表示日志信息，%n是换行符 -->
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%thread] %logger{50} [%file:%line] - %msg %n</pattern>
+            <charset class="java.nio.charset.Charset">UTF-8</charset>
+        </encoder>
+
+        <!-- 日志等级大于等于 INFO 的都通过过滤 -->
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>INFO</level>
+        </filter>
+    </appender>
+
+    <!-- error独立文件输出 -->
+    <appender name="ERROR_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!-- 正在记录的日志文件的路径及文件名，满足时间或大小条件后，会自动被重命名为 FileNamePattern 指定的格式，新日志写入新建的 <file>指定的文件中 -->
+        <file>${LOG_DIR}/${APP_NAME}/error_log.log</file>
+        <!-- RollingFileAppender 需要配置 <rollingPolicy> 和 <triggeringPolicy>，缺一不可 -->
+        <!-- TimeBasedRollingPolicy 实现了 RollingPolicy 和 TriggeringPolicy，所以可以只配置 <rollingPolicy> -->
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <!-- 日志文件名，%d 和 %i 强制要有，分别表示日志归档周期和周期内达到最大尺寸的日志序号，从0开始 -->
+            <FileNamePattern>${LOG_DIR}/${APP_NAME}/error/%d{yyyy-MM-dd}.%i.log</FileNamePattern>
+            <!-- 单个日志文件的最大大小 -->
+            <maxFileSize>200MB</maxFileSize>
+            <!-- 日志文件保留时间，与轮转周期有关；按天记录日志，这里就是30天，按月记录日志，这里就是30个月 -->
+            <MaxHistory>30</MaxHistory>
+            <!-- totalSizeCap 用于限制归档文件的总大小 -->
+            <totalSizeCap>20GB</totalSizeCap>
+        </rollingPolicy>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <!-- 格式化输出：%d表示日期，%thread表示线程名，%-5level表示日志级别，从左显示5个字符宽度，%logger表示日志产生的类名，%msg表示日志信息，%n是换行符 -->
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%thread] %logger{50} [%file:%line] - %msg %n</pattern>
+            <charset class="java.nio.charset.Charset">UTF-8</charset>
+        </encoder>
+
+        <!-- 此日志文件只记录ERROR级别的 -->
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>ERROR</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+
+    </appender>
+
+    <!--
+        <configuration> 中可以有0或多个 <logger> 标签，其必有 name 属性，用于指定"某个 package 或类"的日志输出样式，通过 <appender-ref> 标签指定，level 属性是可选的
+    <logger name="x.y" level="INFO">
+        <appender-ref ref="CONSOLE"/>
+    </logger>
+    -->
+    <logger name="com.example" level="DEBUG">
+        <appender-ref ref="CONSOLE"/>
+    </logger>
+
+    <!-- 日志输出级别 -->
+    <!-- <root> 标签是特殊的 <logger> 标签，它是所有 <logger> 标签的祖先，其 name="ROOT"，为全局的 <logger>，当为"某个 package 或类"配置了 <logger>，该 package 或类的日志输出样式以 <logger> 为准 -->
+    <!-- 若 <logger> 和 <root> 引用了同一个 <appender>，会造成日志重复输出 -->
+    <root level="INFO">
+<!--        <appender-ref ref="CONSOLE"/>-->
+        <appender-ref ref="FILE"/>
+        <appender-ref ref="ERROR_FILE"/>
+    </root>
+</configuration>
+
+        <!-- 关于日志颜色的注意事项：
+            <pattern>%black(控制台-) %red(%d{yyyy-MM-dd HH:mm:ss}) %green([%thread]) %highlight(%-5level) %boldMagenta(%logger{10}) - %cyan(%msg%n)</pattern>
+
+            1.第一点，颜色%black %red等等 ，需要用括号将你要显示本颜色的子模块括起来
+
+            2.第二点，%red颜色等，前面要与上一个模块 空格隔开
+
+            3.同样可以定义一个property变量然后直接引用在<pattern>标签中
+
+            4.颜色只用于控制台输出，文件中使用颜色会出现乱码。
+        -->
